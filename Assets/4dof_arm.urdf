@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<robot name="4dof_arm">
+  <link name="world" />
+
+  <!-- Link 1 - base -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.2" radius="0.2"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.2" radius="0.2"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Link 2 - ehoulder -->
+  <link name="shoulder_link">
+    <visual>
+      <geometry>
+        <box size="0.2 0.3 0.3"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.2 0.3"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Link 3 - elbow -->
+  <link name="elbow_link">
+    <!-- <visual> -->
+      <!-- <geometry>
+        <box size="0.2 0.2 0.3"/>
+      </geometry>
+    </visual> -->
+    <geometry>
+        <sphere radius="0.09"/>
+      </geometry>
+    <collision>
+      <!-- <geometry>
+        <box size="0.2 0.2 0.3"/>
+      </geometry> -->
+      <geometry>
+        <sphere radius="0.09"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Link 4 - wrist -->
+  <link name="wrist_link">
+    <visual>
+      <geometry>
+        <sphere radius="0.09"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.09"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="base_to_world" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <parent link="world"/>
+    <child link="base_link"/>
+    <axis xyz="0.0 0.0 0.0"/>
+  </joint>
+
+  <!-- Joint 1 - Base Rotation -->
+  <joint name="base_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="10" velocity="1.0"/>
+  </joint>
+
+  <!-- Joint 2 - Shoulder -->
+  <joint name="shoulder_joint" type="revolute">
+    <parent link="shoulder_link"/>
+    <child link="elbow_link"/>
+    <origin xyz="0 0 0.2" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="1.0"/>
+  </joint>
+
+  <!-- Joint 3 - Elbow -->
+  <joint name="elbow_joint" type="revolute">
+    <parent link="elbow_link"/>
+    <child link="wrist_link"/>
+    <origin xyz="0 0 0.2" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="1.0"/>
+  </joint>
+
+  <!-- Joint 4 -  Wrist -->
+  <joint name="wrist_joint" type="revolute">
+    <parent link="wrist_link"/>
+    <child link="end_effector"/>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="1.0"/>
+  </joint>
+</robot>
