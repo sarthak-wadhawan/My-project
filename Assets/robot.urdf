@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<robot name="simple_4dof_arm">
+  
+  <!-- Link: Base -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.5 0.5 0.1"/> <!-- Base dimensions -->
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+
+  <!-- Link: Arm Link 0 -->
+  <link name="arm_link0">
+    <visual>
+      <geometry>
+        <box size="1 0.2 0.2"/> <!-- Arm link 1 dimensions -->
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 1.57 0"/>
+    </visual>
+  </link>
+
+  <!-- Joint: Shoulder (Base to Arm Link 1) -->
+  <joint name="big_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="arm_link0"/>
+    <origin xyz="0 0 0.15" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/> <!-- Rotation about the Z-axis -->
+    <limit lower="-1.57" upper="1.57" effort="50" velocity="1.0"/>
+  </joint>
+
+
+  <!-- Link: Arm Link 1 -->
+  <link name="arm_link1">
+    <visual>
+      <geometry>
+        <box size="0.2 1.0 0.2"/> <!-- Arm link 1 dimensions -->
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <!-- Joint: Shoulder (Base to Arm Link 1) -->
+  <joint name="shoulder_joint" type="revolute">
+    <parent link="arm_link0"/>
+    <child link="arm_link1"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/> <!-- Rotation about the Z-axis -->
+    <limit lower="-1.57" upper="1.57" effort="50" velocity="1.0"/>
+  </joint>
+
+  <!-- Link: Arm Link 2 -->
+  <link name="arm_link2">
+    <visual>
+      <geometry>
+        <box size="0.2 1.0 0.2"/> <!-- Arm link 2 dimensions -->
+      </geometry>
+      <origin xyz="0 1.0 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <!-- Joint: Elbow (Arm Link 1 to Arm Link 2) -->
+  <joint name="elbow_joint" type="revolute">
+    <parent link="arm_link1"/>
+    <child link="arm_link2"/>
+    <origin xyz="0 0.5 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/> <!-- Rotation about the Y-axis -->
+    <limit lower="-1.57" upper="1.57" effort="50" velocity="1.0"/>
+  </joint>
+
+  <!-- Link: Arm Link 3 -->
+  <link name="arm_link3">
+    <visual>
+      <geometry>
+        <box size="0.2 0.8 0.2"/> <!-- Arm link 3 dimensions -->
+      </geometry>
+      <origin xyz="0 0.8 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <!-- Joint: Wrist (Arm Link 2 to Arm Link 3) -->
+  <joint name="wrist_joint" type="revolute">
+    <parent link="arm_link2"/>
+    <child link="arm_link3"/>
+    <origin xyz="0 0.5 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/> <!-- Rotation about the X-axis -->
+    <limit lower="-1.57" upper="1.57" effort="50" velocity="1.0"/>
+  </joint>
+
+  <!-- Link: Gripper -->
+  <link name="gripper">
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.3"/> <!-- Gripper dimensions -->
+      </geometry>
+      <origin xyz="0 0.4 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <!-- Joint: Gripper (Arm Link 3 to Gripper) -->
+  <joint name="gripper_joint" type="fixed">
+    <parent link="arm_link3"/>
+    <child link="gripper"/>
+    <origin xyz="0 0.8 0" rpy="0 0 0"/>
+  </joint>
+
+</robot>
